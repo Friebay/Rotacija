@@ -9,15 +9,16 @@ def index():
         if step == 'funding_status':
             funding_status = request.form['funding_status']
             if funding_status == 'yes':
-                return render_template('rotacija.html', step='funded')
+                return render_template('rotacija.html', step='funded', funding_status=funding_status)
             else:
-                return render_template('rotacija.html', step='not_funded')
+                return render_template('rotacija.html', step='not_funded', funding_status=funding_status)
         elif step == 'used_funding':
             used_funding = request.form['used_funding']
+            funding_status = request.form.get('funding_status')
             if used_funding == 'yes':
-                return render_template('rotacija.html', step='no_funding')
+                return render_template('rotacija.html', step='no_funding', funding_status=funding_status)
             else:
-                return render_template('rotacija.html', step='grades')
+                return render_template('rotacija.html', step='grades', funding_status=funding_status)
         elif step == 'submit_grades':
             grades = request.form.getlist('grades')
             grades = [float(grade) for grade in grades if grade]
@@ -44,7 +45,7 @@ def index():
                 else:
                     funding_status_message = "You won't get funded."
 
-            return render_template('rotacija.html', step='final', grades=grades, percent_below_5=percent_below_5, percent_5_to_7=percent_5_to_7, percent_7_to_9=percent_7_to_9, percent_above_9=percent_above_9, funding_status_message=funding_status_message)
+            return render_template('rotacija.html', step='final', grades=grades, percent_below_5=percent_below_5, percent_5_to_7=percent_5_to_7, percent_7_to_9=percent_7_to_9, percent_above_9=percent_above_9, funding_status_message=funding_status_message, funding_status=funding_status)
     return render_template('rotacija.html', step='funding_status')
 
 if __name__ == '__main__':
