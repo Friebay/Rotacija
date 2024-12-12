@@ -16,6 +16,7 @@
         <h1>Enter your class names and final grades</h1>
         <form method="post">
             <input type="hidden" name="step" value="submit_grades">
+            <input type="hidden" name="funding_status" value="yes">
             <div id="classes">
                 <div>
                     <input type="text" name="class_name" placeholder="Class Name">
@@ -29,6 +30,7 @@
         <h1>Have you already used your funding?</h1>
         <form method="post">
             <input type="hidden" name="step" value="used_funding">
+            <input type="hidden" name="funding_status" value="{{ funding_status }}">
             <input type="radio" name="used_funding" value="yes"> Yes<br>
             <input type="radio" name="used_funding" value="no"> No<br>
             <input type="submit" value="Submit">
@@ -42,6 +44,7 @@
         <h1>Enter your class names and final grades</h1>
         <form method="post">
             <input type="hidden" name="step" value="submit_grades">
+            <input type="hidden" name="funding_status" value="{{ funding_status }}">
             <div id="classes">
                 <div>
                     <input type="text" name="class_name" placeholder="Class Name">
@@ -54,7 +57,15 @@
     {% elif step == 'final' %}
         <h1>Grades submitted</h1>
         <p>Grades: {{ grades }}</p>
-        <p>Average grade: {{ average }}</p>
+        <p>Percentage of grades:</p>
+        <ul>
+            <li>Below 5: {{ percent_below_5 }}%</li>
+            <li>Between 5 (included) and 7 (not included): {{ percent_5_to_7 }}%</li>
+            <li>Between 7 (included) and 9 (not included): {{ percent_7_to_9 }}%</li>
+            <li>Above 9 (included): {{ percent_above_9 }}%</li>
+        </ul>
+        <p>{{ funding_status_message }}</p>
+        <p>Currently funded: {{ 'Yes' if funding_status == 'yes' else 'No' }}</p>
         <form method="get">
             <input type="submit" value="Reset">
         </form>
