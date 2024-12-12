@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Funding Status and Class Grades</h1>
+        <form action="{{ url_for('process_question') }}" method="POST">
+            <label for="funding_status">What is your funding status?</label>
+            <select name="funding_status" id="funding_status" required>
+                <option value="none">None</option>
+                <option value="partial">Partial</option>
+                <option value="full">Full</option>
+            </select>
+
+            <label for="class_name">Enter your class name:</label>
+            <input type="text" id="class_name" name="class_name" required>
+
+            <label for="final_grade">Enter your final grade:</label>
+            <input type="number" id="final_grade" name="final_grade" min="0" max="100" required>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>
