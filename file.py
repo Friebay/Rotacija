@@ -20,7 +20,9 @@ def index():
                 return render_template('index.html', step='grades')
         elif step == 'submit_grades':
             grades = request.form.getlist('grades')
-            return "Grades submitted: " + ", ".join(grades)
+            grades = [float(grade) for grade in grades if grade]
+            average = sum(grades) / len(grades) if grades else 0
+            return render_template('index.html', step='final', grades=grades, average=average)
     return render_template('index.html', step='funding_status')
 
 if __name__ == '__main__':

@@ -35,6 +35,9 @@
         </form>
     {% elif step == 'no_funding' %}
         <h1>You can't get funded again.</h1>
+        <form method="get">
+            <input type="submit" value="Reset">
+        </form>
     {% elif step == 'grades' %}
         <h1>Enter your class names and final grades</h1>
         <form method="post">
@@ -47,6 +50,13 @@
             </div>
             <button type="button" onclick="addClass()">Add another class</button>
             <input type="submit" value="Submit">
+        </form>
+    {% elif step == 'final' %}
+        <h1>Grades submitted</h1>
+        <p>Grades: {{ grades }}</p>
+        <p>Average grade: {{ average }}</p>
+        <form method="get">
+            <input type="submit" value="Reset">
         </form>
     {% endif %}
     <script>
