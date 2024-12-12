@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Questionnaire</title>
+</head>
+<body>
+    {% if step == 'funding_status' %}
+        <h1>Are you currently being funded?</h1>
+        <form method="post">
+            <input type="hidden" name="step" value="funding_status">
+            <input type="radio" name="funding_status" value="yes"> Yes<br>
+            <input type="radio" name="funding_status" value="no"> No<br>
+            <input type="submit" value="Submit">
+        </form>
+    {% elif step == 'funded' %}
+        <h1>Enter your class names and final grades</h1>
+        <form method="post">
+            <input type="hidden" name="step" value="submit_grades">
+            <div id="classes">
+                <div>
+                    <input type="text" name="class_name" placeholder="Class Name">
+                    <input type="text" name="grades" placeholder="Final Grade">
+                </div>
+            </div>
+            <button type="button" onclick="addClass()">Add another class</button>
+            <input type="submit" value="Submit">
+        </form>
+    {% elif step == 'not_funded' %}
+        <h1>Have you already used your funding?</h1>
+        <form method="post">
+            <input type="hidden" name="step" value="used_funding">
+            <input type="radio" name="used_funding" value="yes"> Yes<br>
+            <input type="radio" name="used_funding" value="no"> No<br>
+            <input type="submit" value="Submit">
+        </form>
+    {% elif step == 'no_funding' %}
+        <h1>You can't get funded again.</h1>
+    {% elif step == 'grades' %}
+        <h1>Enter your class names and final grades</h1>
+        <form method="post">
+            <input type="hidden" name="step" value="submit_grades">
+            <div id="classes">
+                <div>
+                    <input type="text" name="class_name" placeholder="Class Name">
+                    <input type="text" name="grades" placeholder="Final Grade">
+                </div>
+            </div>
+            <button type="button" onclick="addClass()">Add another class</button>
+            <input type="submit" value="Submit">
+        </form>
+    {% endif %}
+    <script>
+        function addClass() {
+            var div = document.createElement('div');
+            div.innerHTML = '<input type="text" name="class_name" placeholder="Class Name"> <input type="text" name="grades" placeholder="Final Grade">';
+            document.getElementById('classes').appendChild(div);
+        }
+    </script>
+</body>
+</html>
