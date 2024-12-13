@@ -48,7 +48,7 @@
                         <input type="number" name="between_7_and_9" min="0" value="0">
                     </div>
                     <div>
-                        <label>Aukščiau 9:</label>
+                        <label>Aukščiau arbu lygu 9:</label>
                         <input type="number" name="above_9" min="0" value="0">
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                         <input type="number" name="between_7_and_9" min="0" value="0">
                     </div>
                     <div>
-                        <label>Aukščiau 9:</label>
+                        <label>Aukščiau arba lygu 9:</label>
                         <input type="number" name="above_9" min="0" value="0">
                     </div>
                 </div>
@@ -130,10 +130,12 @@
             var div = document.createElement('div');
             div.innerHTML = '<input type="number" name="grades" placeholder="Galutinis pažymys" autocomplete="off" step="0.01" min="0" max="10" required>';
             document.getElementById('grades').appendChild(div);
+            console.log('Added new grade input field');
         }
 
         function prepareGrades() {
             var gradeInputMethod = document.querySelector('input[name="grade_input_method"]:checked').value;
+            console.log('Grade input method:', gradeInputMethod);
             if (gradeInputMethod === 'precise') {
                 var grades = document.getElementsByName('grades');
                 for (var i = 0; i < grades.length; i++) {
@@ -142,11 +144,14 @@
                         return false;
                     }
                 }
+                console.log('Precise grades:', Array.from(grades).map(input => input.value));
             } else {
                 var below_5 = parseInt(document.querySelector('input[name="below_5"]').value);
                 var between_5_and_7 = parseInt(document.querySelector('input[name="between_5_and_7"]').value);
                 var between_7_and_9 = parseInt(document.querySelector('input[name="between_7_and_9"]').value);
                 var above_9 = parseInt(document.querySelector('input[name="above_9"]').value);
+
+                console.log('Grades by category:', { below_5, between_5_and_7, between_7_and_9, above_9 });
 
                 var gradesContainer = document.getElementById('grades');
                 gradesContainer.innerHTML = '';
@@ -179,6 +184,7 @@
                     input.value = 9.5; // Example value for above 9
                     gradesContainer.appendChild(input);
                 }
+                console.log('Generated hidden grade inputs for category method');
             }
             return true;
         }
@@ -191,6 +197,7 @@
                 for (var i = 0; i < grades.length; i++) {
                     grades[i].required = true;
                 }
+                console.log('Switched to precise grades input');
             } else {
                 document.getElementById('precise_grades').style.display = 'none';
                 document.getElementById('category_grades').style.display = 'block';
@@ -198,6 +205,7 @@
                 for (var i = 0; i < grades.length; i++) {
                     grades[i].required = false;
                 }
+                console.log('Switched to grades by category input');
             }
         }
     </script>

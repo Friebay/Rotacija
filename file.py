@@ -21,6 +21,7 @@ def index():
                 return render_template('rotacija.html', step='grades', funding_status=funding_status)
         elif step == 'submit_grades':
             grade_input_method = request.form.get('grade_input_method')
+            grades = []  # Initialize grades as an empty list
             if grade_input_method == 'precise':
                 grades = request.form.getlist('grades')
                 grades = [float(grade) for grade in grades if grade]
@@ -38,7 +39,6 @@ def index():
                 between_7_and_9 = int(request.form.get('between_7_and_9', 0))
                 above_9 = int(request.form.get('above_9', 0))
                 total_grades = below_5 + between_5_and_7 + between_7_and_9 + above_9
-                grades = []  # Initialize grades as an empty list
                 if total_grades > 0:
                     percent_below_5 = below_5 / total_grades * 100
                     percent_5_to_7 = between_5_and_7 / total_grades * 100
