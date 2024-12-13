@@ -5,78 +5,74 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    {% if step == 'funding_status' %}
-        <h1>Are you currently being funded?</h1>
-        <form method="post">
-            <input type="hidden" name="step" value="funding_status">
-            <input type="radio" name="funding_status" value="yes" id="funding_yes">
-            <label for="funding_yes">Yes</label><br>
-            <input type="radio" name="funding_status" value="no" id="funding_no">
-            <label for="funding_no">No</label><br>
-            <input type="submit" value="Submit">
-        </form>
-    {% elif step == 'funded' %}
-        <h1>Enter your final grades</h1>
-        <form method="post">
-            <input type="hidden" name="step" value="submit_grades">
-            <input type="hidden" name="funding_status" value="yes">
-            <div id="grades">
-                <div>
-                    <input type="text" name="grades" placeholder="Final Grade">
+    <div class="container">
+        {% if step == 'funding_status' %}
+            <h1>Are you currently being funded?</h1>
+            <form method="post">
+                <input type="hidden" name="step" value="funding_status">
+                <button type="submit" name="funding_status" value="yes">Yes</button>
+                <button type="submit" name="funding_status" value="no">No</button>
+            </form>
+        {% elif step == 'funded' %}
+            <h1>Enter your final grades</h1>
+            <form method="post">
+                <input type="hidden" name="step" value="submit_grades">
+                <input type="hidden" name="funding_status" value="yes">
+                <div id="grades">
+                    <div>
+                        <input type="text" name="grades" placeholder="Final Grade" autocomplete="off">
+                    </div>
                 </div>
-            </div>
-            <button type="button" onclick="addGrade()">Add another grade</button>
-            <input type="submit" value="Submit">
-        </form>
-    {% elif step == 'not_funded' %}
-        <h1>Have you already used your funding?</h1>
-        <form method="post">
-            <input type="hidden" name="step" value="used_funding">
-            <input type="hidden" name="funding_status" value="{{ funding_status }}">
-            <input type="radio" name="used_funding" value="yes" id="used_yes">
-            <label for="used_yes">Yes</label><br>
-            <input type="radio" name="used_funding" value="no" id="used_no">
-            <label for="used_no">No</label><br>
-            <input type="submit" value="Submit">
-        </form>
-    {% elif step == 'no_funding' %}
-        <h1>You can't get funded again.</h1>
-        <form method="get">
-            <input type="submit" value="Reset">
-        </form>
-    {% elif step == 'grades' %}
-        <h1>Enter your final grades</h1>
-        <form method="post">
-            <input type="hidden" name="step" value="submit_grades">
-            <input type="hidden" name="funding_status" value="{{ funding_status }}">
-            <div id="grades">
-                <div>
-                    <input type="text" name="grades" placeholder="Final Grade">
+                <button type="button" onclick="addGrade()">Add another grade</button>
+                <input type="submit" value="Submit">
+            </form>
+        {% elif step == 'not_funded' %}
+            <h1>Have you already used your funding?</h1>
+            <form method="post">
+                <input type="hidden" name="step" value="used_funding">
+                <input type="hidden" name="funding_status" value="{{ funding_status }}">
+                <button type="submit" name="used_funding" value="yes">Yes</button>
+                <button type="submit" name="used_funding" value="no">No</button>
+            </form>
+        {% elif step == 'no_funding' %}
+            <h1>You can't get funded again.</h1>
+            <form method="get">
+                <input type="submit" value="Reset">
+            </form>
+        {% elif step == 'grades' %}
+            <h1>Enter your final grades</h1>
+            <form method="post">
+                <input type="hidden" name="step" value="submit_grades">
+                <input type="hidden" name="funding_status" value="{{ funding_status }}">
+                <div id="grades">
+                    <div>
+                        <input type="text" name="grades" placeholder="Final Grade" autocomplete="off">
+                    </div>
                 </div>
-            </div>
-            <button type="button" onclick="addGrade()">Add another grade</button>
-            <input type="submit" value="Submit">
-        </form>
-    {% elif step == 'final' %}
-        <h1>Grades submitted</h1>
-        <p>Grades: {{ grades }}</p>
-        <p>Percentage of grades:</p>
-        <ul>
-            <li>Below 5: {{ "%.2f" % percent_below_5 }}%</li>
-            <li>Between 5 (included) and 7 (not included): {{ "%.2f" % percent_5_to_7 }}%</li>
-            <li>Between 7 (included) and 9 (not included): {{ "%.2f" % percent_7_to_9 }}%</li>
-            <li>Above 9 (included): {{ "%.2f" % percent_above_9 }}%</li>
-        </ul>
-        <p>{{ funding_status_message }}</p>
-        <p>Currently funded: {{ 'Yes' if funding_status == 'yes' else 'No' }}</p>
-        <form method="get">
-            <input type="submit" value="Reset">
-        </form>
-    {% endif %}
+                <button type="button" onclick="addGrade()">Add another grade</button>
+                <input type="submit" value="Submit">
+            </form>
+        {% elif step == 'final' %}
+            <h1>Grades submitted</h1>
+            <p>Grades: {{ grades }}</p>
+            <p>Percentage of grades:</p>
+            <ul>
+                <li>Below 5: {{ "%.2f" % percent_below_5 }}%</li>
+                <li>Between 5 (included) and 7 (not included): {{ "%.2f" % percent_5_to_7 }}%</li>
+                <li>Between 7 (included) and 9 (not included): {{ "%.2f" % percent_7_to_9 }}%</li>
+                <li>Above 9 (included): {{ "%.2f" % percent_above_9 }}%</li>
+            </ul>
+            <p>{{ funding_status_message }}</p>
+            <p>Currently funded: {{ 'Yes' if funding_status == 'yes' else 'No' }}</p>
+            <form method="get">
+                <input type="submit" value="Reset">
+            </form>
+        {% endif %}
+    </div>
     <script>
         function addGrade() {
             var div = document.createElement('div');
-            div.innerHTML = '<input type="text" name="grades" placeholder="Final Grade">';
+            div.innerHTML = '<input type="text" name="grades" placeholder="Final Grade" autocomplete="off">';
             document.getElementById('grades').appendChild(div);
         }
     </script>
