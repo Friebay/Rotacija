@@ -15,12 +15,12 @@
             </form>
         {% elif step == 'funded' %}
             <h1>Įveskite savo galutinius pažymius</h1>
-            <form method="post">
+            <form method="post" onsubmit="return validateGrades()">
                 <input type="hidden" name="step" value="submit_grades">
                 <input type="hidden" name="funding_status" value="yes">
                 <div id="grades">
                     <div>
-                        <input type="number" name="grades" placeholder="Galutinis pažymys" autocomplete="off" step="0.1" min="0" max="10">
+                        <input type="number" name="grades" placeholder="Galutinis pažymys" autocomplete="off" step="0.01" min="0" max="10" required>
                     </div>
                 </div>
                 <button type="button" onclick="addGrade()">Pridėti dar vieną pažymį</button>
@@ -41,12 +41,12 @@
             </form>
         {% elif step == 'grades' %}
             <h1>Įveskite savo galutinius pažymius</h1>
-            <form method="post">
+            <form method="post" onsubmit="return validateGrades()">
                 <input type="hidden" name="step" value="submit_grades">
                 <input type="hidden" name="funding_status" value="{{ funding_status }}">
                 <div id="grades">
                     <div>
-                        <input type="number" name="grades" placeholder="Galutinis pažymys" autocomplete="off" step="0.1" min="0" max="10">
+                        <input type="number" name="grades" placeholder="Galutinis pažymys" autocomplete="off" step="0.01" min="0" max="10" required>
                     </div>
                 </div>
                 <button type="button" onclick="addGrade()">Pridėti dar vieną pažymį</button>
@@ -72,8 +72,19 @@
     <script>
         function addGrade() {
             var div = document.createElement('div');
-            div.innerHTML = '<input type="number" name="grades" placeholder="Galutinis pažymys" autocomplete="off" step="0.1" min="0" max="10">';
+            div.innerHTML = '<input type="number" name="grades" placeholder="Galutinis pažymys" autocomplete="off" step="0.01" min="0" max="10" required>';
             document.getElementById('grades').appendChild(div);
+        }
+
+        function validateGrades() {
+            var grades = document.getElementsByName('grades');
+            for (var i = 0; i < grades.length; i++) {
+                if (grades[i].value === '') {
+                    alert('Prašome įvesti bent vieną pažymį.');
+                    return false;
+                }
+            }
+            return true;
         }
     </script>
 </body>
