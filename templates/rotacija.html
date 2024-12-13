@@ -1,78 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Questionnaire</title>
+    <title>Anketa</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <div class="container">
         {% if step == 'funding_status' %}
-            <h1>Are you currently being funded?</h1>
+            <h1>Ar šiuo metu gaunate finansavimą?</h1>
             <form method="post">
                 <input type="hidden" name="step" value="funding_status">
-                <button type="submit" name="funding_status" value="yes">Yes</button>
-                <button type="submit" name="funding_status" value="no">No</button>
+                <button type="submit" name="funding_status" value="yes">Taip</button>
+                <button type="submit" name="funding_status" value="no">Ne</button>
             </form>
         {% elif step == 'funded' %}
-            <h1>Enter your final grades</h1>
+            <h1>Įveskite savo galutinius pažymius</h1>
             <form method="post">
                 <input type="hidden" name="step" value="submit_grades">
                 <input type="hidden" name="funding_status" value="yes">
                 <div id="grades">
                     <div>
-                        <input type="text" name="grades" placeholder="Final Grade" autocomplete="off">
+                        <input type="text" name="grades" placeholder="Galutinis pažymys" autocomplete="off">
                     </div>
                 </div>
-                <button type="button" onclick="addGrade()">Add another grade</button>
-                <input type="submit" value="Submit">
+                <button type="button" onclick="addGrade()">Pridėti dar vieną pažymį</button>
+                <input type="submit" value="Pateikti">
             </form>
         {% elif step == 'not_funded' %}
-            <h1>Have you already used your funding?</h1>
+            <h1>Ar jau panaudojote savo finansavimą?</h1>
             <form method="post">
                 <input type="hidden" name="step" value="used_funding">
                 <input type="hidden" name="funding_status" value="{{ funding_status }}">
-                <button type="submit" name="used_funding" value="yes">Yes</button>
-                <button type="submit" name="used_funding" value="no">No</button>
+                <button type="submit" name="used_funding" value="yes">Taip</button>
+                <button type="submit" name="used_funding" value="no">Ne</button>
             </form>
         {% elif step == 'no_funding' %}
-            <h1>You can't get funded again.</h1>
+            <h1>Jūs negalite gauti finansavimo dar kartą.</h1>
             <form method="get">
-                <input type="submit" value="Reset">
+                <input type="submit" value="Atstatyti">
             </form>
         {% elif step == 'grades' %}
-            <h1>Enter your final grades</h1>
+            <h1>Įveskite savo galutinius pažymius</h1>
             <form method="post">
                 <input type="hidden" name="step" value="submit_grades">
                 <input type="hidden" name="funding_status" value="{{ funding_status }}">
                 <div id="grades">
                     <div>
-                        <input type="text" name="grades" placeholder="Final Grade" autocomplete="off">
+                        <input type="text" name="grades" placeholder="Galutinis pažymys" autocomplete="off">
                     </div>
                 </div>
-                <button type="button" onclick="addGrade()">Add another grade</button>
-                <input type="submit" value="Submit">
+                <button type="button" onclick="addGrade()">Pridėti dar vieną pažymį</button>
+                <input type="submit" value="Pateikti">
             </form>
         {% elif step == 'final' %}
-            <h1>Grades submitted</h1>
-            <p>Grades: {{ grades }}</p>
-            <p>Percentage of grades:</p>
+            <h1>Pažymiai pateikti</h1>
+            <p>Pažymiai: {{ grades }}</p>
+            <p>Pažymių procentai:</p>
             <ul>
-                <li>Below 5: {{ "%.2f" % percent_below_5 }}%</li>
-                <li>Between 5 (included) and 7 (not included): {{ "%.2f" % percent_5_to_7 }}%</li>
-                <li>Between 7 (included) and 9 (not included): {{ "%.2f" % percent_7_to_9 }}%</li>
-                <li>Above 9 (included): {{ "%.2f" % percent_above_9 }}%</li>
+                <li>Žemiau 5: {{ "%.2f" % percent_below_5 }}%</li>
+                <li>Tarp 5 (įskaitant) ir 7 (neįskaitant): {{ "%.2f" % percent_5_to_7 }}%</li>
+                <li>Tarp 7 (įskaitant) ir 9 (neįskaitant): {{ "%.2f" % percent_7_to_9 }}%</li>
+                <li>Aukščiau 9 (įskaitant): {{ "%.2f" % percent_above_9 }}%</li>
             </ul>
             <p>{{ funding_status_message }}</p>
-            <p>Currently funded: {{ 'Yes' if funding_status == 'yes' else 'No' }}</p>
+            <p>Šiuo metu finansuojamas: {{ 'Taip' if funding_status == 'yes' else 'Ne' }}</p>
             <form method="get">
-                <input type="submit" value="Reset">
+                <input type="submit" value="Atstatyti">
             </form>
         {% endif %}
     </div>
     <script>
         function addGrade() {
             var div = document.createElement('div');
-            div.innerHTML = '<input type="text" name="grades" placeholder="Final Grade" autocomplete="off">';
+            div.innerHTML = '<input type="text" name="grades" placeholder="Galutinis pažymys" autocomplete="off">';
             document.getElementById('grades').appendChild(div);
         }
     </script>

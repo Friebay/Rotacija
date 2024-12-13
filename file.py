@@ -34,16 +34,16 @@ def index():
             funding_status = request.form.get('funding_status')
             if funding_status == 'yes':
                 if percent_below_5 == 0 and percent_5_to_7 == 0:
-                    funding_status_message = "You are not at risk of losing your funding."
+                    funding_status_message = "Jūs neprarasite valstybės finansavimo."
                 elif percent_below_5 > 0 or percent_5_to_7 > 0:
-                    funding_status_message = "There is a possibility that you will lose your funding."
+                    funding_status_message = "Yra galimybė, kad prarasite valstybės finansavimą, nes jūs turite bent vieną pažymį, kuris yra mažesnis nei 7."
                 else:
-                    funding_status_message = "You will lose your funding."
+                    funding_status_message = "Prarasite finansavimą, nes jūs turite bent vieną pažymį, kuris yra mažesnis nei 5."
             else:
                 if percent_7_to_9 > 0 or percent_above_9 > 0:
-                    funding_status_message = "You have a possibility to get funded."
+                    funding_status_message = "Turite galimybę gauti valstybės finansavimą, nes jūsų pažymiai yra tarp  7 ir 10."
                 else:
-                    funding_status_message = "You won't get funded."
+                    funding_status_message = "You won't get funded because you don't have grades that are between 7 and 9 or above 9."
 
             return render_template('rotacija.html', step='final', grades=grades, percent_below_5=percent_below_5, percent_5_to_7=percent_5_to_7, percent_7_to_9=percent_7_to_9, percent_above_9=percent_above_9, funding_status_message=funding_status_message, funding_status=funding_status)
     return render_template('rotacija.html', step='funding_status')
