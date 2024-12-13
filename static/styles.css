@@ -1,0 +1,57 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+}
+
+form {
+    margin-bottom: 1em;
+}
+
+input[type="text"], input[type="submit"], button {
+    font-size: 1em;
+    padding: 0.5em;
+    margin: 0.5em 0;
+}
+
+input[type="radio"] {
+    margin-right: 0.5em;
+}
+
+label {
+    font-size: 1em;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+input[type="submit"] {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #218838;
+}
+
+input:focus, button:focus {
+    outline: 2px solid #0056b3;
+    outline-offset: 2px;
+}
