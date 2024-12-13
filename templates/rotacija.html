@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Anketa</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='rotacija.css') }}">
 </head>
 <body>
     <div class="container">
@@ -20,7 +20,7 @@
                 <input type="hidden" name="funding_status" value="yes">
                 <div id="grades">
                     <div>
-                        <input type="text" name="grades" placeholder="Galutinis pažymys" autocomplete="off">
+                        <input type="number" name="grades" placeholder="Galutinis pažymys" autocomplete="off" step="0.1" min="0" max="10">
                     </div>
                 </div>
                 <button type="button" onclick="addGrade()">Pridėti dar vieną pažymį</button>
@@ -46,7 +46,7 @@
                 <input type="hidden" name="funding_status" value="{{ funding_status }}">
                 <div id="grades">
                     <div>
-                        <input type="text" name="grades" placeholder="Galutinis pažymys" autocomplete="off">
+                        <input type="number" name="grades" placeholder="Galutinis pažymys" autocomplete="off" step="0.1" min="0" max="10">
                     </div>
                 </div>
                 <button type="button" onclick="addGrade()">Pridėti dar vieną pažymį</button>
@@ -72,7 +72,7 @@
     <script>
         function addGrade() {
             var div = document.createElement('div');
-            div.innerHTML = '<input type="text" name="grades" placeholder="Galutinis pažymys" autocomplete="off">';
+            div.innerHTML = '<input type="number" name="grades" placeholder="Galutinis pažymys" autocomplete="off" step="0.1" min="0" max="10">';
             document.getElementById('grades').appendChild(div);
         }
     </script>

@@ -40,10 +40,10 @@ def index():
                 else:
                     funding_status_message = "Prarasite finansavimą, nes jūs turite bent vieną pažymį, kuris yra mažesnis nei 5."
             else:
-                if percent_7_to_9 > 0 or percent_above_9 > 0:
-                    funding_status_message = "Turite galimybę gauti valstybės finansavimą, nes jūsų pažymiai yra tarp  7 ir 10."
+                if round(percent_7_to_9 + percent_above_9, 2) == 100:
+                    funding_status_message = "Turite galimybę gauti valstybės finansavimą, nes jūsų visi pažymiai yra tarp 7 ir 10."
                 else:
-                    funding_status_message = "You won't get funded because you don't have grades that are between 7 and 9 or above 9."
+                    funding_status_message = "Negalėsite gauti valstybės finansavimo, nes jūsų visi pažymiai nėra tarp 7 ir 10."
 
             return render_template('rotacija.html', step='final', grades=grades, percent_below_5=percent_below_5, percent_5_to_7=percent_5_to_7, percent_7_to_9=percent_7_to_9, percent_above_9=percent_above_9, funding_status_message=funding_status_message, funding_status=funding_status)
     return render_template('rotacija.html', step='funding_status')
