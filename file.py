@@ -20,16 +20,32 @@ def index():
             else:
                 return render_template('rotacija.html', step='grades', funding_status=funding_status)
         elif step == 'submit_grades':
-            grades = request.form.getlist('grades')
-            grades = [float(grade) for grade in grades if grade]
-            total_grades = len(grades)
-            if total_grades > 0:
-                percent_below_5 = len([grade for grade in grades if grade < 5]) / total_grades * 100
-                percent_5_to_7 = len([grade for grade in grades if 5 <= grade < 7]) / total_grades * 100
-                percent_7_to_9 = len([grade for grade in grades if 7 <= grade < 9]) / total_grades * 100
-                percent_above_9 = len([grade for grade in grades if grade >= 9]) / total_grades * 100
+            grade_input_method = request.form.get('grade_input_method')
+            if grade_input_method == 'precise':
+                grades = request.form.getlist('grades')
+                grades = [float(grade) for grade in grades if grade]
+                total_grades = len(grades)
+                if total_grades > 0:
+                    percent_below_5 = len([grade for grade in grades if grade < 5]) / total_grades * 100
+                    percent_5_to_7 = len([grade for grade in grades if 5 <= grade < 7]) / total_grades * 100
+                    percent_7_to_9 = len([grade for grade in grades if 7 <= grade < 9]) / total_grades * 100
+                    percent_above_9 = len([grade for grade in grades if grade >= 9]) / total_grades * 100
+                else:
+                    percent_below_5 = percent_5_to_7 = percent_7_to_9 = percent_above_9 = 0
             else:
-                percent_below_5 = percent_5_to_7 = percent_7_to_9 = percent_above_9 = 0
+                below_5 = int(request.form.get('below_5', 0))
+                between_5_and_7 = int(request.form.get('between_5_and_7', 0))
+                between_7_and_9 = int(request.form.get('between_7_and_9', 0))
+                above_9 = int(request.form.get('above_9', 0))
+                total_grades = below_5 + between_5_and_7 + between_7_and_9 + above_9
+                grades = []  # Initialize grades as an empty list
+                if total_grades > 0:
+                    percent_below_5 = below_5 / total_grades * 100
+                    percent_5_to_7 = between_5_and_7 / total_grades * 100
+                    percent_7_to_9 = between_7_and_9 / total_grades * 100
+                    percent_above_9 = above_9 / total_grades * 100
+                else:
+                    percent_below_5 = percent_5_to_7 = percent_7_to_9 = percent_above_9 = 0
 
             funding_status = request.form.get('funding_status')
             if funding_status == 'yes':

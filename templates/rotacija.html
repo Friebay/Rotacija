@@ -15,15 +15,43 @@
             </form>
         {% elif step == 'funded' %}
             <h1>Įveskite savo galutinius pažymius</h1>
-            <form method="post" onsubmit="return validateGrades()">
+            <form method="post" onsubmit="return prepareGrades()">
                 <input type="hidden" name="step" value="submit_grades">
                 <input type="hidden" name="funding_status" value="yes">
-                <div id="grades">
+                <div>
+                    <label>
+                        <input type="radio" name="grade_input_method" value="precise" checked onclick="toggleGradeInput('precise')"> Precise Grades
+                    </label>
+                    <label>
+                        <input type="radio" name="grade_input_method" value="category" onclick="toggleGradeInput('category')"> Grades by Category
+                    </label>
+                </div>
+                <div id="precise_grades">
+                    <div id="grades">
+                        <div>
+                            <input type="number" name="grades" placeholder="Galutinis pažymys" autocomplete="off" step="0.01" min="0" max="10" required>
+                        </div>
+                    </div>
+                    <button type="button" onclick="addGrade()">Pridėti dar vieną pažymį</button>
+                </div>
+                <div id="category_grades" style="display: none;">
                     <div>
-                        <input type="number" name="grades" placeholder="Galutinis pažymys" autocomplete="off" step="0.01" min="0" max="10" required>
+                        <label>Žemiau 5:</label>
+                        <input type="number" name="below_5" min="0" value="0">
+                    </div>
+                    <div>
+                        <label>Tarp 5 ir 7:</label>
+                        <input type="number" name="between_5_and_7" min="0" value="0">
+                    </div>
+                    <div>
+                        <label>Tarp 7 ir 9:</label>
+                        <input type="number" name="between_7_and_9" min="0" value="0">
+                    </div>
+                    <div>
+                        <label>Aukščiau 9:</label>
+                        <input type="number" name="above_9" min="0" value="0">
                     </div>
                 </div>
-                <button type="button" onclick="addGrade()">Pridėti dar vieną pažymį</button>
                 <input type="submit" value="Pateikti">
             </form>
         {% elif step == 'not_funded' %}
@@ -41,15 +69,43 @@
             </form>
         {% elif step == 'grades' %}
             <h1>Įveskite savo galutinius pažymius</h1>
-            <form method="post" onsubmit="return validateGrades()">
+            <form method="post" onsubmit="return prepareGrades()">
                 <input type="hidden" name="step" value="submit_grades">
                 <input type="hidden" name="funding_status" value="{{ funding_status }}">
-                <div id="grades">
+                <div>
+                    <label>
+                        <input type="radio" name="grade_input_method" value="precise" checked onclick="toggleGradeInput('precise')"> Precise Grades
+                    </label>
+                    <label>
+                        <input type="radio" name="grade_input_method" value="category" onclick="toggleGradeInput('category')"> Grades by Category
+                    </label>
+                </div>
+                <div id="precise_grades">
+                    <div id="grades">
+                        <div>
+                            <input type="number" name="grades" placeholder="Galutinis pažymys" autocomplete="off" step="0.01" min="0" max="10" required>
+                        </div>
+                    </div>
+                    <button type="button" onclick="addGrade()">Pridėti dar vieną pažymį</button>
+                </div>
+                <div id="category_grades" style="display: none;">
                     <div>
-                        <input type="number" name="grades" placeholder="Galutinis pažymys" autocomplete="off" step="0.01" min="0" max="10" required>
+                        <label>Žemiau 5:</label>
+                        <input type="number" name="below_5" min="0" value="0">
+                    </div>
+                    <div>
+                        <label>Tarp 5 ir 7:</label>
+                        <input type="number" name="between_5_and_7" min="0" value="0">
+                    </div>
+                    <div>
+                        <label>Tarp 7 ir 9:</label>
+                        <input type="number" name="between_7_and_9" min="0" value="0">
+                    </div>
+                    <div>
+                        <label>Aukščiau 9:</label>
+                        <input type="number" name="above_9" min="0" value="0">
                     </div>
                 </div>
-                <button type="button" onclick="addGrade()">Pridėti dar vieną pažymį</button>
                 <input type="submit" value="Pateikti">
             </form>
         {% elif step == 'final' %}
@@ -76,15 +132,73 @@
             document.getElementById('grades').appendChild(div);
         }
 
-        function validateGrades() {
-            var grades = document.getElementsByName('grades');
-            for (var i = 0; i < grades.length; i++) {
-                if (grades[i].value === '') {
-                    alert('Prašome įvesti bent vieną pažymį.');
-                    return false;
+        function prepareGrades() {
+            var gradeInputMethod = document.querySelector('input[name="grade_input_method"]:checked').value;
+            if (gradeInputMethod === 'precise') {
+                var grades = document.getElementsByName('grades');
+                for (var i = 0; i < grades.length; i++) {
+                    if (grades[i].value === '') {
+                        alert('Prašome įvesti bent vieną pažymį.');
+                        return false;
+                    }
+                }
+            } else {
+                var below_5 = parseInt(document.querySelector('input[name="below_5"]').value);
+                var between_5_and_7 = parseInt(document.querySelector('input[name="between_5_and_7"]').value);
+                var between_7_and_9 = parseInt(document.querySelector('input[name="between_7_and_9"]').value);
+                var above_9 = parseInt(document.querySelector('input[name="above_9"]').value);
+
+                var gradesContainer = document.getElementById('grades');
+                gradesContainer.innerHTML = '';
+
+                for (var i = 0; i < below_5; i++) {
+                    var input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'grades';
+                    input.value = 4.99; // Example value for below 5
+                    gradesContainer.appendChild(input);
+                }
+                for (var i = 0; i < between_5_and_7; i++) {
+                    var input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'grades';
+                    input.value = 6; // Example value for between 5 and 7
+                    gradesContainer.appendChild(input);
+                }
+                for (var i = 0; i < between_7_and_9; i++) {
+                    var input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'grades';
+                    input.value = 8; // Example value for between 7 and 9
+                    gradesContainer.appendChild(input);
+                }
+                for (var i = 0; i < above_9; i++) {
+                    var input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'grades';
+                    input.value = 9.5; // Example value for above 9
+                    gradesContainer.appendChild(input);
                 }
             }
             return true;
+        }
+
+        function toggleGradeInput(method) {
+            if (method === 'precise') {
+                document.getElementById('precise_grades').style.display = 'block';
+                document.getElementById('category_grades').style.display = 'none';
+                var grades = document.getElementsByName('grades');
+                for (var i = 0; i < grades.length; i++) {
+                    grades[i].required = true;
+                }
+            } else {
+                document.getElementById('precise_grades').style.display = 'none';
+                document.getElementById('category_grades').style.display = 'block';
+                var grades = document.getElementsByName('grades');
+                for (var i = 0; i < grades.length; i++) {
+                    grades[i].required = false;
+                }
+            }
         }
     </script>
 </body>
